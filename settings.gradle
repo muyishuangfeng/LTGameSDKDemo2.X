@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name='LTGameSDK2.XDemo'
