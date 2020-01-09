@@ -3,6 +3,7 @@ package com.gnetop.sdk.demo.manager;
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.gentop.ltgame.ltgamesdkcore.common.LTGameOptions;
 import com.gentop.ltgame.ltgamesdkcore.common.LTGameSdk;
@@ -14,11 +15,11 @@ import com.gentop.ltgame.ltgamesdkcore.manager.RechargeManager;
 import com.gentop.ltgame.ltgamesdkcore.model.LoginObject;
 import com.gentop.ltgame.ltgamesdkcore.model.RechargeObject;
 import com.gentop.ltgame.ltgamesdkcore.util.DeviceUtils;
-import com.gnetop.sdk.demo.R;
 import com.sdk.ltgame.ltfacebook.FacebookEventManager;
+import com.sdk.ltgame.ltnet.impl.OnUploadDeviceListener;
+import com.sdk.ltgame.ltnet.manager.LoginRealizeManager;
 
 import java.util.Map;
-import java.util.WeakHashMap;
 import java.util.concurrent.Executors;
 
 public class LoginEventManager {
@@ -37,136 +38,213 @@ public class LoginEventManager {
     /**
      * 初始化google
      */
-    public static void googleInit(Context context, boolean isDebug, boolean isTest) {
-        if (TextUtils.isEmpty(mAdID)) {
-            getAdID(context);
-        }
-        LTGameOptions options = new LTGameOptions.Builder(context)
-                .debug(isDebug)
-                .appID(mLtAppID)
-                .appKey(mLtAppKey)
-                .isServerTest(isTest)
-                .setAdID(mAdID)
-                .google(mAuthID)
-                .requestCode(REQUEST_CODE)
-                .build();
-        LTGameSdk.init(options);
+    public static void googleInit(final Context context, final boolean isDebug, final boolean isTest) {
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mAdID = DeviceUtils.getGoogleAdId(context.getApplicationContext());
+                    if (!TextUtils.isEmpty(mAdID)) {
+                        LTGameOptions options = new LTGameOptions.Builder(context)
+                                .debug(isDebug)
+                                .appID(mLtAppID)
+                                .appKey(mLtAppKey)
+                                .isServerTest(isTest)
+                                .setAdID(mAdID)
+                                .google(mAuthID)
+                                .requestCode(REQUEST_CODE)
+                                .build();
+                        LTGameSdk.init(options);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
     }
 
     /**
      * 初始化fb
      */
-    public static void fbInit(Context context, boolean isDebug, boolean isTest) {
-        if (TextUtils.isEmpty(mAdID)) {
-            getAdID(context);
-        }
-        LTGameOptions options = new LTGameOptions.Builder(context)
-                .debug(isDebug)
-                .appID(mLtAppID)
-                .appKey(mLtAppKey)
-                .isServerTest(isTest)
-                .setAdID(mAdID)
-                .facebookEnable()
-                .facebook(mFacebookId)
-                .requestCode(REQUEST_CODE)
-                .build();
-        LTGameSdk.init(options);
+    public static void fbInit(final Context context, final boolean isDebug, final boolean isTest) {
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mAdID = DeviceUtils.getGoogleAdId(context.getApplicationContext());
+                    if (!TextUtils.isEmpty(mAdID)) {
+                        LTGameOptions options = new LTGameOptions.Builder(context)
+                                .debug(isDebug)
+                                .appID(mLtAppID)
+                                .appKey(mLtAppKey)
+                                .isServerTest(isTest)
+                                .setAdID(mAdID)
+                                .facebookEnable()
+                                .facebook(mFacebookId)
+                                .requestCode(REQUEST_CODE)
+                                .build();
+                        LTGameSdk.init(options);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     /**
      * 初始化gp
      */
-    public static void gpInit(Context context, boolean isDebug, boolean isTest,
-                              int mTestPay) {
-        if (TextUtils.isEmpty(mAdID)) {
-            getAdID(context);
-        }
-        LTGameOptions options = new LTGameOptions.Builder(context)
-                .debug(isDebug)
-                .appID(mLtAppID)
-                .appKey(mLtAppKey)
-                .isServerTest(isTest)
-                .setAdID(mAdID)
-                .payTest(mTestPay)
-                .googlePlay(true)
-                .requestCode(REQUEST_CODE)
-                .build();
-        LTGameSdk.init(options);
+    public static void gpInit(final Context context, final boolean isDebug, final boolean isTest,
+                              final int mTestPay) {
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mAdID = DeviceUtils.getGoogleAdId(context.getApplicationContext());
+                    if (!TextUtils.isEmpty(mAdID)) {
+                        LTGameOptions options = new LTGameOptions.Builder(context)
+                                .debug(isDebug)
+                                .appID(mLtAppID)
+                                .appKey(mLtAppKey)
+                                .isServerTest(isTest)
+                                .setAdID(mAdID)
+                                .payTest(mTestPay)
+                                .googlePlay(true)
+                                .requestCode(REQUEST_CODE)
+                                .build();
+                        LTGameSdk.init(options);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     /**
      * 初始化gp
      */
-    public static void guestInit(Context context, boolean isDebug, boolean isTest) {
-        if (TextUtils.isEmpty(mAdID)) {
-            getAdID(context);
-        }
-        LTGameOptions options = new LTGameOptions.Builder(context)
-                .debug(isDebug)
-                .appID(mLtAppID)
-                .appKey(mLtAppKey)
-                .isServerTest(isTest)
-                .setAdID(mAdID)
-                .guestEnable(true)
-                .build();
-        LTGameSdk.init(options);
+    public static void guestInit(final Context context, final boolean isDebug, final boolean isTest) {
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mAdID = DeviceUtils.getGoogleAdId(context.getApplicationContext());
+                    if (!TextUtils.isEmpty(mAdID)) {
+                        LTGameOptions options = new LTGameOptions.Builder(context)
+                                .debug(isDebug)
+                                .appID(mLtAppID)
+                                .appKey(mLtAppKey)
+                                .isServerTest(isTest)
+                                .setAdID(mAdID)
+                                .guestEnable(true)
+                                .build();
+                        LTGameSdk.init(options);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     /**
      * 初始化gp
      */
-    public static void qqInit(Context context, boolean isDebug, boolean isTest) {
-        if (TextUtils.isEmpty(mAdID)) {
-            getAdID(context);
-        }
-        LTGameOptions options = new LTGameOptions.Builder(context)
-                .debug(isDebug)
-                .appID(mLtAppID)
-                .appKey(mLtAppKey)
-                .isServerTest(isTest)
-                .setAdID(mAdID)
-                .qq(QQ_APP_ID)
-                .setQQEnable(true)
-                .build();
-        LTGameSdk.init(options);
+    public static void qqInit(final Context context, final boolean isDebug, final boolean isTest) {
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mAdID = DeviceUtils.getGoogleAdId(context.getApplicationContext());
+                    if (!TextUtils.isEmpty(mAdID)) {
+                        LTGameOptions options = new LTGameOptions.Builder(context)
+                                .debug(isDebug)
+                                .appID(mLtAppID)
+                                .appKey(mLtAppKey)
+                                .isServerTest(isTest)
+                                .setAdID(mAdID)
+                                .qq(QQ_APP_ID)
+                                .setQQEnable(true)
+                                .build();
+                        LTGameSdk.init(options);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     /**
      * 初始化gp
      */
-    public static void phoneInit(Context context, boolean isDebug, boolean isTest) {
-        if (TextUtils.isEmpty(mAdID)) {
-            getAdID(context);
-        }
-        LTGameOptions options = new LTGameOptions.Builder(context)
-                .debug(isDebug)
-                .appID(mLtAppID)
-                .appKey(mLtAppKey)
-                .isServerTest(isTest)
-                .setAdID(mAdID)
-                .phoneEnable()
-                .build();
-        LTGameSdk.init(options);
+    public static void phoneInit(final Context context, final boolean isDebug, final boolean isTest) {
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mAdID = DeviceUtils.getGoogleAdId(context.getApplicationContext());
+                    if (!TextUtils.isEmpty(mAdID)) {
+                        LTGameOptions options = new LTGameOptions.Builder(context)
+                                .debug(isDebug)
+                                .appID(mLtAppID)
+                                .appKey(mLtAppKey)
+                                .isServerTest(isTest)
+                                .setAdID(mAdID)
+                                .phoneEnable()
+                                .build();
+                        LTGameSdk.init(options);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     /**
      * 初始化oneStore
      */
-    public static void oneStoreInit(Context context, boolean isDebug, boolean isTest) {
-        if (TextUtils.isEmpty(mAdID)) {
-            getAdID(context);
-        }
-        LTGameOptions options = new LTGameOptions.Builder(context)
-                .debug(isDebug)
-                .appID(mLtAppID)
-                .appKey(mLtAppKey)
-                .isServerTest(isTest)
-                .setAdID(mAdID)
-                .oneStore()
-                .goodsType("inapp")
-                .requestCode(REQUEST_CODE)
-                .build();
-        LTGameSdk.init(options);
+    public static void oneStoreInit(final Context context, final boolean isDebug, final boolean isTest) {
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mAdID = DeviceUtils.getGoogleAdId(context.getApplicationContext());
+                    if (!TextUtils.isEmpty(mAdID)) {
+                        LTGameOptions options = new LTGameOptions.Builder(context)
+                                .debug(isDebug)
+                                .appID(mLtAppID)
+                                .appKey(mLtAppKey)
+                                .isServerTest(isTest)
+                                .setAdID(mAdID)
+                                .oneStore()
+                                .goodsType("inapp")
+                                .requestCode(REQUEST_CODE)
+                                .build();
+                        LTGameSdk.init(options);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
 
@@ -182,9 +260,6 @@ public class LoginEventManager {
      */
     public static void googleLogin(Activity context, boolean isLoginOut, boolean isStats,
                                    OnLoginStateListener mOnLoginListener) {
-        if (TextUtils.isEmpty(mAdID)) {
-            getAdID(context);
-        }
         LoginObject object = new LoginObject();
         object.setmAdID(mAdID);
         object.setLTAppID(mLtAppID);
@@ -208,9 +283,6 @@ public class LoginEventManager {
      */
     public static void fbLogin(Activity context, boolean isLoginOut, boolean isStats,
                                OnLoginStateListener mOnLoginListener) {
-        if (TextUtils.isEmpty(mAdID)) {
-            getAdID(context);
-        }
         LoginObject object = new LoginObject();
         object.setFacebookAppID(mFacebookId);
         object.setmAdID(mAdID);
@@ -233,9 +305,6 @@ public class LoginEventManager {
      */
     public static void qqLogin(Activity context, boolean isLoginOut,
                                OnLoginStateListener mOnLoginListener) {
-        if (TextUtils.isEmpty(mAdID)) {
-            getAdID(context);
-        }
         LoginObject object = new LoginObject();
         object.setmAdID(mAdID);
         object.setLTAppID(mLtAppID);
@@ -257,9 +326,6 @@ public class LoginEventManager {
      */
     public static void guestLogin(Activity context, String guestType, boolean isStats,
                                   OnLoginStateListener mOnLoginListener) {
-        if (TextUtils.isEmpty(mAdID)) {
-            getAdID(context);
-        }
         LoginObject object = new LoginObject();
         object.setmAdID(mAdID);
         object.setFacebookAppID(mFacebookId);
@@ -283,9 +349,6 @@ public class LoginEventManager {
      */
     public static void phoneLogin(Activity context, String mPhone, String mPassword, String loginType,
                                   OnLoginStateListener mOnLoginListener) {
-        if (TextUtils.isEmpty(mAdID)) {
-            getAdID(context);
-        }
         LoginObject object = new LoginObject();
         object.setmAdID(mAdID);
         object.setLTAppID(mLtAppID);
@@ -356,36 +419,58 @@ public class LoginEventManager {
      * 统计初始化
      */
     public static void statsInit(Context context) {
-        FacebookEventManager.start(context, mFacebookId);
+        FacebookEventManager.getInstance().start(context, mFacebookId);
     }
 
     /**
      * 注册
      */
-    public static void register(Context context) {
-        FacebookEventManager.registerBroadcast(context);
+    public static void register(Context context, boolean fbEnable, boolean googleEnable,
+                                boolean gpEnable, boolean guestEnable) {
+        FacebookEventManager.getInstance().registerBroadcast(context,
+                fbEnable, googleEnable, gpEnable, guestEnable);
     }
 
     /**
      * 反注册
      */
     public static void unRegister(Context context) {
-        FacebookEventManager.unRegisterBroadcast(context);
+        FacebookEventManager.getInstance().unRegisterBroadcast(context);
     }
 
-
     /**
-     * 获取唯一标识符
+     * 获取手机信息
      */
-    private static void getAdID(final Context context) {
+    public static void getDeviceInfo(final Context context, final boolean isDebug, final boolean isTest) {
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    mAdID = DeviceUtils.getGoogleAdId(context);
+                    mAdID = DeviceUtils.getGoogleAdId(context.getApplicationContext());
+                    if (!TextUtils.isEmpty(mAdID)) {
+                        LTGameOptions options = new LTGameOptions.Builder(context)
+                                .debug(isDebug)
+                                .appID(mLtAppID)
+                                .appKey(mLtAppKey)
+                                .setAdID(mAdID)
+                                .isServerTest(isTest)
+                                .build();
+                        LTGameSdk.init(options);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        });
+        LoginRealizeManager.uploadDeviceInfo(context, new OnUploadDeviceListener() {
+            @Override
+            public void onSuccess() {
+                Log.e("TAG", "onSuccess");
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                Log.e("TAG", msg);
             }
         });
     }

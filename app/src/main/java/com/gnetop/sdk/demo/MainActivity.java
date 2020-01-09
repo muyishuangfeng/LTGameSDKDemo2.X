@@ -3,7 +3,6 @@ package com.gnetop.sdk.demo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.media.FaceDetector;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initView() {
         LoginEventManager.statsInit(this);
+        LoginEventManager.register(this,false,false,false,false);
         mTxtResult = findViewById(R.id.txt_result);
         mBtnGuest = findViewById(R.id.btn_guest);
         mBtnGuest.setOnClickListener(new View.OnClickListener() {
@@ -76,16 +76,15 @@ public class MainActivity extends AppCompatActivity {
         mBtnQQ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, QQActivity.class));
+                //startActivity(new Intent(MainActivity.this, QQActivity.class));
+                LoginEventManager.getDeviceInfo(MainActivity.this,true,true);
             }
         });
+
+
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        LoginEventManager.register(this);
-    }
+
 
     @Override
     protected void onDestroy() {

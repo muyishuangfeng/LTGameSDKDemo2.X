@@ -7,12 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.gentop.ltgame.ltgamesdkcore.common.LTGameOptions;
-import com.gentop.ltgame.ltgamesdkcore.common.LTGameSdk;
-import com.gentop.ltgame.ltgamesdkcore.common.Target;
 import com.gentop.ltgame.ltgamesdkcore.impl.OnRechargeListener;
-import com.gentop.ltgame.ltgamesdkcore.manager.RechargeManager;
-import com.gentop.ltgame.ltgamesdkcore.model.RechargeObject;
 import com.gentop.ltgame.ltgamesdkcore.model.RechargeResult;
 import com.gnetop.sdk.demo.manager.LoginEventManager;
 

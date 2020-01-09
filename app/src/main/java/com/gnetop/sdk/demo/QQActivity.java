@@ -2,24 +2,15 @@ package com.gnetop.sdk.demo;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.gentop.ltgame.ltgamesdkcore.common.LTGameOptions;
-import com.gentop.ltgame.ltgamesdkcore.common.LTGameSdk;
-import com.gentop.ltgame.ltgamesdkcore.common.Target;
 import com.gentop.ltgame.ltgamesdkcore.exception.LTGameError;
 import com.gentop.ltgame.ltgamesdkcore.impl.OnLoginStateListener;
-import com.gentop.ltgame.ltgamesdkcore.manager.LoginManager;
-import com.gentop.ltgame.ltgamesdkcore.model.LoginObject;
 import com.gentop.ltgame.ltgamesdkcore.model.LoginResult;
-import com.gentop.ltgame.ltgamesdkcore.util.DeviceUtils;
 import com.gnetop.sdk.demo.manager.LoginEventManager;
-
-import java.util.concurrent.Executors;
 
 import androidx.appcompat.app.AppCompatActivity;
 

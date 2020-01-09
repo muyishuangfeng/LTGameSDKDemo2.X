@@ -56,14 +56,14 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation 'com.github.muyishuangfeng:LTGameSDKCore2.X-Android:2.0.4'
-    implementation 'com.github.muyishuangfeng:LTGameSDKNet2.X-Android:2.0.4'
-    implementation 'com.github.muyishuangfeng:LTGameSDKGoogle2.X-Android:2.0.2'
-    implementation 'com.github.muyishuangfeng:LTGameSDKGP2.X-Android:2.0.2'
-    implementation 'com.github.muyishuangfeng:LTGameSDKFB2.X-Android:2.0.4'
-    implementation 'com.github.muyishuangfeng:LTGameSDKOneStore2.X-Android:2.0.2'
-    implementation 'com.github.muyishuangfeng:LTGameSDKPhone2.X-Android:2.0.2'
-    implementation 'com.github.muyishuangfeng:LTGameSDKQQ2.X-Android:2.0.2'
-    implementation 'com.github.muyishuangfeng:LTGameSDKGuest2.X-Android:2.0.2'
+    implementation 'com.github.muyishuangfeng:LTGameSDKNet2.X-Android:2.0.6'
+    implementation 'com.github.muyishuangfeng:LTGameSDKGoogle2.X-Android:2.0.5'
+    implementation 'com.github.muyishuangfeng:LTGameSDKGP2.X-Android:2.0.3'
+    implementation 'com.github.muyishuangfeng:LTGameSDKFB2.X-Android:2.0.5'
+    implementation 'com.github.muyishuangfeng:LTGameSDKOneStore2.X-Android:2.0.3'
+    implementation 'com.github.muyishuangfeng:LTGameSDKPhone2.X-Android:2.0.3'
+    implementation 'com.github.muyishuangfeng:LTGameSDKQQ2.X-Android:2.0.3'
+    implementation 'com.github.muyishuangfeng:LTGameSDKGuest2.X-Android:2.0.3'
     //方法数超过65535
     implementation 'com.android.support:multidex:1.0.3'
 }
