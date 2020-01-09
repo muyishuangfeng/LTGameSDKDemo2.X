@@ -456,23 +456,24 @@ public class LoginEventManager {
                                 .isServerTest(isTest)
                                 .build();
                         LTGameSdk.init(options);
+                        LoginRealizeManager.uploadDeviceInfo(context, new OnUploadDeviceListener() {
+                            @Override
+                            public void onSuccess() {
+                                Log.e("TAG", "onSuccess");
+                            }
+
+                            @Override
+                            public void onFailed(String msg) {
+                                Log.e("TAG", msg);
+                            }
+                        });
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
-        LoginRealizeManager.uploadDeviceInfo(context, new OnUploadDeviceListener() {
-            @Override
-            public void onSuccess() {
-                Log.e("TAG", "onSuccess");
-            }
 
-            @Override
-            public void onFailed(String msg) {
-                Log.e("TAG", msg);
-            }
-        });
     }
 
 
