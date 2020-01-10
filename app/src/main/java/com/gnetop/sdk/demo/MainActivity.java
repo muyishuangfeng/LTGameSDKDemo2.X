@@ -4,15 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Contacts;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.gentop.ltsdk.facebook.FacebookUIEventManager;
 import com.gnetop.sdk.demo.manager.LoginEventManager;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button mBtnGoogle, mBtnFB, mBtnGP, mBtnGuest, mBtnQQ, mBtnPhone, mBtnOneStore;
+    Button mBtnGoogle, mBtnFB, mBtnGP, mBtnGuest, mBtnQQ, mBtnPhone, mBtnOneStore, mBtnUI, mBtnDevice;
     TextView mTxtResult;
 
     @Override
@@ -26,8 +28,10 @@ public class MainActivity extends AppCompatActivity {
      * 初始化控件
      */
     private void initView() {
-        LoginEventManager.statsInit(this);
-        LoginEventManager.register(this,false,false,false,false);
+        LoginEventManager.uiStatsInit(this);
+        LoginEventManager.uiRegister(this, false, false, false, false);
+        LoginEventManager.addOrder(this);
+
         mTxtResult = findViewById(R.id.txt_result);
         mBtnGuest = findViewById(R.id.btn_guest);
         mBtnGuest.setOnClickListener(new View.OnClickListener() {
@@ -76,8 +80,22 @@ public class MainActivity extends AppCompatActivity {
         mBtnQQ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(MainActivity.this, QQActivity.class));
-                LoginEventManager.getDeviceInfo(MainActivity.this,true,true);
+                startActivity(new Intent(MainActivity.this, QQActivity.class));
+
+            }
+        });
+        mBtnUI = findViewById(R.id.btn_ui);
+        mBtnUI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, UIActivity.class));
+            }
+        });
+        mBtnDevice = findViewById(R.id.btn_device);
+        mBtnDevice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginEventManager.getDeviceInfo(MainActivity.this, true, true);
             }
         });
 
@@ -85,10 +103,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LoginEventManager.unRegister(this);
+        LoginEventManager.uiUnRegister(this);
     }
 }

@@ -21,7 +21,6 @@ public class GooglePlayActivity extends AppCompatActivity {
     Button mBtnPay;
     TextView mTxtResult;
     private static final String TAG = GooglePlayActivity.class.getSimpleName();
-    Map<String, Object> params = new WeakHashMap<>();
     private String mGoodsID = "138";
     String mSKU = "com.gnetop.one";
 
@@ -35,6 +34,7 @@ public class GooglePlayActivity extends AppCompatActivity {
 
     private void initView() {
         LoginEventManager.gpInit(this,true,true,0);
+        final Map<String, Object> params = new WeakHashMap<>();
         params.put("key", "123");
         mTxtResult = findViewById(R.id.txt_result);
         mBtnPay = findViewById(R.id.btn_pay);
@@ -42,7 +42,7 @@ public class GooglePlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                LoginEventManager.gpRecharge(GooglePlayActivity.this,mSKU,mGoodsID,params,0,
-                       false,mOnRechargeListener);
+                       mOnRechargeListener);
             }
         });
     }
@@ -55,7 +55,7 @@ public class GooglePlayActivity extends AppCompatActivity {
         public void onState(Activity activity, RechargeResult result) {
             switch (result.state) {
                 case RechargeResult.STATE_RECHARGE_SUCCESS:
-                    mTxtResult.setText(result.getResultModel().getCode() + "======");
+                    mTxtResult.setText(result.getResultModel().toString());
                     break;
                 case RechargeResult.STATE_RECHARGE_START:
                     Log.e(TAG, "开始支付");

@@ -2,6 +2,7 @@ package com.gnetop.sdk.demo.manager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.media.FaceDetector;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -15,9 +16,13 @@ import com.gentop.ltgame.ltgamesdkcore.manager.RechargeManager;
 import com.gentop.ltgame.ltgamesdkcore.model.LoginObject;
 import com.gentop.ltgame.ltgamesdkcore.model.RechargeObject;
 import com.gentop.ltgame.ltgamesdkcore.util.DeviceUtils;
+import com.gentop.ltsdk.facebook.FacebookUIEventManager;
+import com.gnetop.sdk.demo.GooglePlayActivity;
 import com.sdk.ltgame.ltfacebook.FacebookEventManager;
+import com.sdk.ltgame.ltgoogleplay.GooglePlayHelper;
 import com.sdk.ltgame.ltnet.impl.OnUploadDeviceListener;
 import com.sdk.ltgame.ltnet.manager.LoginRealizeManager;
+import com.sdk.ltgame.ltnet.util.AppUtil;
 
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -112,6 +117,7 @@ public class LoginEventManager {
                                 .appID(mLtAppID)
                                 .appKey(mLtAppKey)
                                 .isServerTest(isTest)
+                                .packageID(AppUtil.getPackageName(context))
                                 .setAdID(mAdID)
                                 .payTest(mTestPay)
                                 .googlePlay(true)
@@ -125,6 +131,7 @@ public class LoginEventManager {
                 }
             }
         });
+
 
     }
 
@@ -368,21 +375,21 @@ public class LoginEventManager {
      *                            //@param mPublicKey          公钥
      * @param params              自定义参数
      * @param payType             支付类型
-     * @param isStats             是否开启统计，true、开启，false、不开启
+     *                            //@param isStats             是否开启统计，true、开启，false、不开启
      * @param mOnRechargeListener 回调
      */
     public static void gpRecharge(Activity context, String sku, String mGoodsID,
                                   Map<String, Object> params, int payType,
-                                  boolean isStats,
                                   OnRechargeListener mOnRechargeListener) {
         RechargeObject result = new RechargeObject();
         result.setLTAppID(mLtAppID);
         result.setLTAppKey(mLtAppKey);
         result.setSku(sku);
+        result.setStats(false);
         result.setGoodsID(mGoodsID);
         result.setPublicKey(mGPPublicKey);
+        result.setPackageID(AppUtil.getPackageName(context));
         result.setParams(params);
-        result.setStats(isStats);
         result.setPayTest(payType);
         RechargeManager.recharge(context, Target.RECHARGE_GOOGLE,
                 result, mOnRechargeListener);
@@ -421,14 +428,27 @@ public class LoginEventManager {
     public static void statsInit(Context context) {
         FacebookEventManager.getInstance().start(context, mFacebookId);
     }
+    /**
+     * UI库统计初始化
+     */
+    public static void uiStatsInit(Context context) {
+        FacebookUIEventManager.getInstance().start(context, mFacebookId);
+    }
 
     /**
      * 注册
+     *
+     * @param context      上下文
+     * @param fbEnable     是否统计FB登录
+     * @param googleEnable 是否统计Google登录
+     * @param gpEnable     是否统计Google支付
+     * @param guestEnable  是否统计游客登录
      */
     public static void register(Context context, boolean fbEnable, boolean googleEnable,
                                 boolean gpEnable, boolean guestEnable) {
         FacebookEventManager.getInstance().registerBroadcast(context,
                 fbEnable, googleEnable, gpEnable, guestEnable);
+
     }
 
     /**
@@ -436,6 +456,29 @@ public class LoginEventManager {
      */
     public static void unRegister(Context context) {
         FacebookEventManager.getInstance().unRegisterBroadcast(context);
+    }
+
+    /**
+     * UI库注册
+     *
+     * @param context      上下文
+     * @param fbEnable     是否统计FB登录
+     * @param googleEnable 是否统计Google登录
+     * @param gpEnable     是否统计Google支付
+     * @param guestEnable  是否统计游客登录
+     */
+    public static void uiRegister(Context context, boolean fbEnable, boolean googleEnable,
+                                  boolean gpEnable, boolean guestEnable) {
+        FacebookUIEventManager.getInstance().registerBroadcast(context,
+                fbEnable, googleEnable, gpEnable, guestEnable);
+
+    }
+
+    /**
+     * UI库反注册
+     */
+    public static void uiUnRegister(Context context) {
+        FacebookUIEventManager.getInstance().unRegisterBroadcast(context);
     }
 
     /**
@@ -473,6 +516,38 @@ public class LoginEventManager {
                 }
             }
         });
+
+    }
+
+    /**
+     * 补单
+     */
+    public static void addOrder(final Activity context) {
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mAdID = DeviceUtils.getGoogleAdId(context.getApplicationContext());
+                    if (!TextUtils.isEmpty(mAdID)) {
+                        LTGameOptions options = new LTGameOptions.Builder(context)
+                                .debug(false)
+                                .appID(mLtAppID)
+                                .appKey(mLtAppKey)
+                                .publicKey(mGPPublicKey)
+                                .isServerTest(true)
+                                .googlePlay(true)
+                                .build();
+                        LTGameSdk.init(options);
+                        GooglePlayHelper mHelper = new GooglePlayHelper(context, mGPPublicKey);
+                        mHelper.queryOrder();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
     }
 
